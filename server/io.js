@@ -63,8 +63,5 @@ module.exports = function(http) {
     socket.on('disconnect', () => {
       console.log('A User disconnected');
     });
-
-    require('./io/deploy')(socket);
-
   });
 }

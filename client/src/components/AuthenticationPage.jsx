@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './images/ziggurate.jpg';
 import RaisedButton from 'material-ui/RaisedButton';
+import request from 'superagent';
 
-import $ from 'jquery';
 
 class AuthenticationPage extends Component {
 
@@ -11,17 +11,12 @@ class AuthenticationPage extends Component {
   };
 
   componentDidMount () {
-   $.ajax({
-     url: '/api/v1/auth/github/login',
-     type: 'GET',
-     datatype: 'JSON',
-     success: function(data) {
-       this.setState({githubUrl: data});
-       console.log(data);
-     }.bind(this)
-
-   });
- }
+    request.get('http://localhost:9080/api/v1/auth/github/login')
+           .set('Accept', 'application/json')
+          .end((err, res) => {
+              this.setState({githubUrl: res.text});
+          });
+   }
 
 render() {
     return(

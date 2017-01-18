@@ -1,6 +1,6 @@
 /* eslint camelcase:0 */
 
-const config = require('../../../../config');
+const config = require('../../../config');
 const request = require('superagent');
 require('superagent-auth-bearer')(request);
 const jsonwebtoken = require('jsonwebtoken');
@@ -52,6 +52,7 @@ module.exports = {
     res.send('https://github.com/login/oauth/authorize?client_id=' + config.GITHUB_CLIENT_ID);
   },
   complete: function(req, res) {
+    console.log(req.query.code);
     const code = req.query.code;
     request
     .get('https://github.com/login/oauth/access_token')
@@ -77,7 +78,7 @@ module.exports = {
             if(err3) { res.status(500).json(err3); return; }
               res
               .cookie('token', jwt)
-              .redirect('/#/dashboard');
+              .redirect('http://localhost:3000/#/app');
             return;
           });
         });
